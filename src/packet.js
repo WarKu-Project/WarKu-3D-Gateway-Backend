@@ -14,9 +14,13 @@ packet[packet.C_LOGIN] = (remote,pr) =>{
   let username = pr.read_string()
   remote.onLogin(username)
 }
-packet.notifyLoginSuccess = (username)=>{
+packet.notifyLoginSuccess = (username,worldPort,positionPort,combatPort,statPort)=>{
   let pw = new PacketWriter(packet.S_NOTIFY_LOGIN_SUCCESS)
   pw.append_string(username)
+  pw.append_uint8(worldPort)
+  pw.append_uint8(positionPort)
+  pw.append_uint8(combatPort)
+  pw.append_uint8(statPort)
   pw.finish()
   return pw.buffer
 }

@@ -41,6 +41,30 @@ class Client extends RemoteProxy {
     mongodb.update('user',{user:this.user},{state:'Disconnected'})
     log.insert('gateway-server-auth',this.user+' logout from server')
   }
+
+  //find
+  assignServerPort() {
+    this.findServer(this,'world',(self,result)=>{
+      let worldPort = result.port
+      self.findServer(self,'position',(self,result)=>{
+        let positionPort = result.port
+        self.findServer(self,'combat',(self,result)=>{
+          let combatPort = result.port
+          self.findServer(self,'statistic',(self,result)=>{
+            let statPort = result.port
+            self.send(packet.notifyLoginSuccess(username,worldPort,positionPort,combatPort,statPort))
+          })
+        })
+      })
+    })
+  }
+  findServer(self,type,cb) {
+    mongodb.find(self,'server',{type:type},(self,results)=>{
+      console.log(results);
+      let minLoad = results.reduce((prev,curr)=>{return prev.load/prev.time<curr.load/curr.time ? prev:curr})
+      cb(self,result)
+    })
+  }
 }
 
 module.exports = Client
