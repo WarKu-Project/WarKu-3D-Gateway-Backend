@@ -31,7 +31,7 @@ class Client extends RemoteProxy {
     this.user = username
     mongodb.update('user',{user:username},{state:'Running'})
     log.insert('gateway-server-auth',this.user+' login.')
-    this.send(packet.notifyLoginSuccess(username))
+    this.assignServerPort(username)
   }
   notifyDuplicateLogin(username) {
     log.insert('gateway-server-auth','Duplicate Login occur on '+username)
@@ -43,7 +43,7 @@ class Client extends RemoteProxy {
   }
 
   //find
-  assignServerPort() {
+  assignServerPort(username) {
     this.findServer(this,'world',(self,result)=>{
       let worldPort = result.port
       self.findServer(self,'position',(self,result)=>{
@@ -60,9 +60,8 @@ class Client extends RemoteProxy {
   }
   findServer(self,type,cb) {
     mongodb.find(self,'server',{type:type},(self,results)=>{
-      console.log(results);
       let minLoad = results.reduce((prev,curr)=>{return prev.load/prev.time<curr.load/curr.time ? prev:curr})
-      cb(self,result)
+      cb(self,minLoad)
     })
   }
 }
