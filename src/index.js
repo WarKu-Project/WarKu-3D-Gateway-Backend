@@ -15,5 +15,5 @@ var PORT = 1000
 server.setRemoteProxyClass(RemoteProxy)
 server.setPacketObject(packet)
 server.listen(PORT)
-mongo.update('server',{ type:'gatway', port:PORT},{type:'gateway', port:PORT })
-log.insert('gateway-server-'+PORT,'Initialize Gateway Server')
+mongo.update('server',{ type:'gatway'},{port:PORT })
+log.insert('gateway-server','Initialize Gateway Server')
