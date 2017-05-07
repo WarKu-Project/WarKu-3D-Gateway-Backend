@@ -1,0 +1,12 @@
+{
+  "name": "WarKu-3D-Gateway-Backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/WarKu-Project/WarKu-3D-Gateway-Backend.git",
+  "author": "Voraton Lertrattanapaisal <iguru.shou.5410070@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "dgt-net": "^1.1.0",
+    "mongodb": "^2.2.26"
+  }
+}
