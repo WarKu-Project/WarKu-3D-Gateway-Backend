@@ -1,27 +1,34 @@
-//Import MongoDB
+/**
+* Initialize MongoDB
+**/
 let MongoClient = require('mongodb').MongoClient
 let assert = require('assert')
 const URI = 'mongodb://localhost:27017/warku'
-
-//Initialize MongoDB
 MongoClient.connect(URI, (err, db) => {
   assert.equal(null, err)
   console.log('Connected to MongoDB '+URI);
   db.close()
 })
 
-//DB Function
-let insert = (collection,data) => {
+/**
+* Insert document to MongoDB
+**/
+let insert = (collection,data,cb) => {
   MongoClient.connect(URI,(err,db)=>{
     assert.equal(null, err)
-    db.collection(collection).insertOne(data,(err)=>{
+    db.collection(collection).insertOne(data,(err,result)=>{
       assert.equal(err, null)
+      if (cb)
+        cb(result)
       db.close()
     })
   })
 }
 
-let update = (collection,target,data) => {
+/**
+* Update document to MongoDB
+**/
+let update = (collection,target,data,cb) => {
   MongoClient.connect(URI,(err,db)=>{
     assert.equal(null, err)
     db.collection(collection).updateOne(target,
@@ -30,29 +37,40 @@ let update = (collection,target,data) => {
         $currentDate: { "lastModified": true }
       },{
         upsert:true
-      }, (err) => {
+      }, (err,result) => {
         assert.equal(err, null)
+        if (cb)
+          cb(result)
         db.close()
       })
   })
 }
 
-let remove = (collection,target) => {
+/**
+* Remove document from MongoDB
+**/
+let remove = (collection,target,cb) => {
   MongoClient.connect(URI, (err, db) => {
     assert.equal(null, err);
-    db.collection(collection).deleteOne(target,(err) => {
+    db.collection(collection).deleteOne(target,(err,result) => {
       assert.equal(err, null)
+      if (cb)
+        cb(result)
       db.close()
     })
   })
 }
 
-let find = (self,collection,target,cb) =>{
+/**
+* Find document from MongoDB
+*/
+let find = (collection,target,cb) =>{
   MongoClient.connect(URI, (err, db) => {
     assert.equal(null, err);
     db.collection(collection).find(target).toArray((err,results)=>{
       assert.equal(err, null)
-      cb(self,results);
+      if (cb)
+        cb(results);
       db.close()
     })
   })
