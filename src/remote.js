@@ -66,16 +66,16 @@ class Client extends RemoteProxy {
     let self = this
     mongodb.find('server',{type:'world'},(results)=>{
       let worldPort = 0
-      if (results.length > 0) worldPort = Array.getMin(results,'time','response')
+      if (results.length > 0) worldPort = Array.getMin(results,'time','response').port
       mongodb.find('server',{type:'combat'},(results)=>{
         let combatPort = 0
-        if (results.length > 0) combatPort = Array.getMin(results,'time','response')
+        if (results.length > 0) combatPort = Array.getMin(results,'time','response').port
         mongodb.find('server',{type:'position'},(results)=>{
           let positionPort = 0
-          if (results.length > 0) positionPort = Array.getMin(results,'time','response')
+          if (results.length > 0) positionPort = Array.getMin(results,'time','response').port
           mongodb.find('server',{type:'statistic'},(results)=>{
             let statisticPort = 0
-            if (results.length > 0) statisticPort = Array.getMin(results,'time','response')
+            if (results.length > 0) statisticPort = Array.getMin(results,'time','response').port
             self.notifyAuthenticationSuccessful(worldPort,combatPort,positionPort,statisticPort)
           })
         })
