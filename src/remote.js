@@ -51,7 +51,7 @@ class Client extends RemoteProxy {
   * Notify Client that authentication is successful
   **/
   notifyAuthenticationSuccessful(worldPort,combatPort,positionPort,statisticPort){
-    this.send(packet.responseAuthenticationSuccess(worldPort,combatPort,positionPort,statisticPort))
+    this.send(packet.responseAuthenticationSuccess(this.username,worldPort,combatPort,positionPort,statisticPort))
   }
   /**
   * Notify Client that there is duplicate authentication

@@ -24,8 +24,9 @@ packet[packet.CLIENT_REQUEST_AUTHENTICATION] = (remote,pr) => {
 /**
 * Response Client that Authentication is Successful
 **/
-packet.responseAuthenticationSuccess = (worldPort,combatPort,positionPort,statisticPort)=>{
+packet.responseAuthenticationSuccess = (username,worldPort,combatPort,positionPort,statisticPort)=>{
   let pw = new PacketWriter(packet.SERVER_RESPONSE_AUTHENTICATION_SUCCESSFUL)
+  pw.append_string(username)
   pw.append_uint16(worldPort)
   pw.append_uint16(combatPort)
   pw.append_uint16(positionPort)
