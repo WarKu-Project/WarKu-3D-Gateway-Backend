@@ -64,7 +64,7 @@ class Client extends RemoteProxy {
   **/
   assignServerPort(){
     let self = this
-    mongodb.find('server',{type:'world'},(results)=>{
+    mongodb.find('server',{type:'world-child'},(results)=>{
       let worldPort = 0
       if (results.length > 0) worldPort = Array.getMin(results,'time','response').port
       mongodb.find('server',{type:'combat'},(results)=>{
